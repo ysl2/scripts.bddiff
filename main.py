@@ -8,7 +8,7 @@ def cmd(cmdstr):
 
 
 def same_count(l, r):
-    r = cmd(f'BaiduPCS-Go cd -l {r}')
+    r = cmd(f'BaiduPCS-Go ls {r}')
     r.strip()
     r = r.split('\n')
     r = [tmp for tmp in r if '文件总数' in tmp]
