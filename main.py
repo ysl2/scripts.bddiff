@@ -1,6 +1,7 @@
 import subprocess
 import pathlib
 from tqdm.auto import tqdm
+import pandas as pd
 
 
 def cmd(cmdstr):
@@ -46,13 +47,16 @@ def main():
             continue
         local_paths.append(local_path)
 
+    df = pd.DataFrame(columns=['local_num', 'remote_num', 'local_path', 'remote_path'])
     for local_path in tqdm(local_paths):
         path = local_path.relative_to(local_root)
         remote_path = remote_root / path
 
         l, r = same_count(local_path, remote_path)
-        if l == r:
+        if l != r:
             print(l, r, local_path, remote_path)
+            df.loc[len(df)] = [l, r, local_path, remote_path]
+    df.to_csv('result.csv', index=False)
 
 
 if __name__ == '__main__':
